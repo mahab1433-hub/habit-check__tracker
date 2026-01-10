@@ -26,6 +26,7 @@ import Sidebar from './components/Sidebar';
 import './App.css';
 import './themes.css';
 import LoginPage from './components/LoginPage';
+import DailyFeedback from './components/DailyFeedback';
 
 function AppContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -44,6 +45,7 @@ function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [view, setView] = useState<'list' | 'calendar' | 'tasks' | 'stats'>('list');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [feedbackTrigger, setFeedbackTrigger] = useState(0);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -171,9 +173,14 @@ function AppContent() {
     setView('list');
   };
 
-  const handleFilterClick = () => {
-    // TODO: Implement filter modal
-    console.log('Filter clicked');
+  const handleFeedbackClick = () => {
+    // Trigger feedback card
+    setFeedbackTrigger(prev => prev + 1);
+    // Ensure we are on "Today" and "List" view so the user can see it
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    setSelectedDate(today);
+    setView('list');
   };
 
   const handleCalendarClick = () => {
@@ -211,7 +218,7 @@ function AppContent() {
           onMenuClick={handleMenuClick}
           onTodayClick={handleTodayClick}
           onSettingsClick={handleSettingsClick}
-          onFilterClick={handleFilterClick}
+          onFeedbackClick={handleFeedbackClick}
           onCalendarClick={handleCalendarClick}
         />
         <QuestionnaireScreen onComplete={handleQuestionsComplete} />
@@ -258,7 +265,7 @@ function AppContent() {
               onMenuClick={handleMenuClick}
               onTodayClick={handleTodayClick}
               onSettingsClick={handleSettingsClick}
-              onFilterClick={handleFilterClick}
+              onFeedbackClick={handleFeedbackClick}
               onCalendarClick={handleCalendarClick}
             />
             <DateSelector
@@ -271,18 +278,21 @@ function AppContent() {
             />
             <main>
               {view === 'list' && (
-                <HabitList
-                  habits={habits}
-                  selectedDate={selectedDate}
-                  onDateChange={setSelectedDate}
-                  onToggle={toggleHabitDate}
-                  onEdit={(habit) => {
-                    // Handle edit - navigate to edit page or open modal
-                    console.log('Edit habit:', habit);
-                  }}
-                  onDelete={deleteHabit}
-                  isCompleted={isHabitCompleted}
-                />
+                <>
+                  <DailyFeedback selectedDate={selectedDate} triggerOpen={feedbackTrigger} />
+                  <HabitList
+                    habits={habits}
+                    selectedDate={selectedDate}
+                    onDateChange={setSelectedDate}
+                    onToggle={toggleHabitDate}
+                    onEdit={(habit) => {
+                      // Handle edit - navigate to edit page or open modal
+                      console.log('Edit habit:', habit);
+                    }}
+                    onDelete={deleteHabit}
+                    isCompleted={isHabitCompleted}
+                  />
+                </>
               )}
               {view === 'calendar' && (
                 <CalendarView
