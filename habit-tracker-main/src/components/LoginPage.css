@@ -1,0 +1,232 @@
+/* Dark Black Theme Login Page */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #000000;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #EDEDED;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.login-card {
+    background-color: #111111;
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.login-header {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #EDEDED 0%, #A1A1A1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    color: #888;
+    margin-left: 4px;
+    font-weight: 500;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-input {
+    width: 100%;
+    padding: 16px;
+    padding-right: 45px;
+    /* Space for eye icon */
+    background-color: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    color: #EDEDED;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.login-input:focus {
+    border-color: #4CAF50;
+    /* Subtle neon green focus */
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+    background-color: #1F1F1F;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: #EDEDED;
+}
+
+.login-button {
+    margin-top: 1rem;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #222;
+    color: #FFF;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.login-button:hover {
+    background: #2A2A2A;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.login-button:hover::before {
+    opacity: 1;
+}
+
+.login-button:active {
+    transform: translateY(1px);
+}
+
+.error-message {
+    color: #FF5252;
+    font-size: 0.85rem;
+    text-align: center;
+    min-height: 1.2em;
+}
+
+.auth-toggle-container {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.auth-toggle-text {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.auth-toggle-link {
+    color: #EDEDED;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 5px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.auth-toggle-link:hover {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+/* Settings Profile Card */
+.settings-profile-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: #1A1A1A;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #2A2A2A;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #EDEDED;
+    margin-bottom: 0.2rem;
+}
+
+.profile-email {
+    font-size: 0.9rem;
+    color: #888;
+}

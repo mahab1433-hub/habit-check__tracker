@@ -1,0 +1,223 @@
+.all-set-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000000;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 1.5rem;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.all-set-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    z-index: 10;
+}
+
+.icon-container {
+    margin-bottom: 2rem;
+    animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.confetti-circle {
+    width: 120px;
+    height: 120px;
+    background: #3b82f6;
+    /* Blue circle */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+}
+
+.confetti-emoji {
+    font-size: 4rem;
+}
+
+.all-set-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    opacity: 0;
+    animation: slideUp 0.6s ease-out 0.2s forwards;
+}
+
+.all-set-content p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    text-align: center;
+    margin: 0 0 3rem 0;
+    opacity: 0;
+    animation: slideUp 0.6s ease-out 0.4s forwards;
+}
+
+.highlight-card {
+    background: rgba(255, 149, 0, 0.15);
+    /* Orange tint */
+    border: 1px solid rgba(255, 149, 0, 0.3);
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: slideUp 0.6s ease-out 0.6s forwards;
+}
+
+.highlight-icon {
+    background: #f59e0b;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.highlight-text {
+    color: #f59e0b;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.all-set-footer {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    z-index: 10;
+    margin-bottom: 2rem;
+}
+
+.lets-go-button {
+    width: 100%;
+    padding: 1.1rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    opacity: 0;
+    animation: slideUp 0.6s ease-out 0.8s forwards;
+}
+
+.lets-go-button:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+}
+
+.pagination-dots {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out 1s forwards;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: #3b82f6;
+    width: 8px;
+    /* Or elongated if desired, user image showed simple dots */
+    transform: scale(1.2);
+}
+
+/* Background Atmosphere */
+.glow-orb {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    pointer-events: none;
+}
+
+.orb-top {
+    background: #3b82f6;
+    top: -100px;
+    right: -50px;
+}
+
+.orb-bottom {
+    background: #7c3aed;
+    bottom: -100px;
+    left: -50px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.all-set-screen.exit {
+    animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}

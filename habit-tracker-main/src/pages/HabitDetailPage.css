@@ -1,0 +1,173 @@
+.habit-detail-page {
+    background-color: #000000;
+    min-height: 100vh;
+    padding: 1rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.detail-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hero-icon-box {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.hero-frequency-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #a1a1aa;
+    font-size: 0.9rem;
+}
+
+/* Calendar Card */
+.detail-calendar-card {
+    background: #18181b;
+    /* Zinc 900 */
+    border-radius: 20px;
+    padding: 1.2rem;
+    padding-bottom: 2rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.month-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 1.2rem;
+    text-align: center;
+}
+
+.cal-day-header {
+    font-size: 0.8rem;
+    color: #71717a;
+    padding-bottom: 0.5rem;
+}
+
+.cal-day-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 30px;
+}
+
+.day-number {
+    font-size: 0.95rem;
+    color: #e4e4e7;
+}
+
+.dot-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    /* Fallback green */
+}
+
+/* Stats */
+.stats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-card {
+    background: #18181b;
+    border-radius: 20px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Dark Blue "Current Streak" Card (User Request) */
+.stat-card.accent-green {
+    background: #1e3a8a;
+    /* Dark blue bg (blue-900) */
+    color: #bfdbfe;
+    /* Light blue text (blue-200) */
+}
+
+/* Override dark mode text for this specific card */
+.stat-card.accent-green .stat-label,
+.stat-card.accent-green .stat-value,
+.stat-card.accent-green .stat-icon {
+    color: #dbeafe;
+    /* lighter blue (blue-100) */
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.stat-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.stat-card.small {
+    flex: 1;
+}
+
+.stat-card.small .stat-value {
+    font-size: 1.4rem;
+}

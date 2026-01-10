@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Storage</title>
+</head>
+<body>
+    <h1>Test localStorage</h1>
+    <button onclick="checkStorage()">Check Storage</button>
+    <button onclick="clearStorage()">Clear Storage</button>
+    <pre id="output"></pre>
+    
+    <script>
+        function checkStorage() {
+            const data = localStorage.getItem('habit-tracker-data');
+            const output = document.getElementById('output');
+            if (data) {
+                output.textContent = JSON.stringify(JSON.parse(data), null, 2);
+            } else {
+                output.textContent = 'No data found in localStorage';
+            }
+        }
+        
+        function clearStorage() {
+            localStorage.removeItem('habit-tracker-data');
+            document.getElementById('output').textContent = 'Storage cleared';
+        }
+        
+        // Auto-check on load
+        checkStorage();
+    </script>
+</body>
+</html>

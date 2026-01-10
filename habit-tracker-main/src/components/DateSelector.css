@@ -1,0 +1,109 @@
+.date-selector {
+  width: 100%;
+  background-color: #0a0a0a;
+  padding: 0 0 0.5rem 0;
+  /* Removed top padding */
+  margin-top: -5px;
+  /* Slight pull up to sit closer to rounded nav */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.date-scroll-container {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0 0.75rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.date-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.date-card {
+  min-width: 50px;
+  height: 55px;
+  background-color: #0f0f0f;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.date-card:hover {
+  background-color: #3a3a4e;
+  transform: translateY(-2px);
+}
+
+.date-card.active {
+  background-color: #3b82f6;
+  border-color: #60a5fa;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  transform: scale(1.05);
+}
+
+.date-card.today {
+  background-color: #2d3748;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.day-name {
+  font-size: 0.65rem;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+  font-weight: 500;
+}
+
+.date-card.active .day-name {
+  color: #ffffff;
+}
+
+.date-number {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.date-card.active .date-number {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.date-card.today .date-number {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+@media (max-width: 768px) {
+  .date-selector {
+    /* Full bleed using viewport width */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: -5px;
+  }
+
+  .date-scroll-container {
+    padding: 0 1rem;
+    /* Restore internal padding for content */
+  }
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Habit Tracker Debug</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Check localStorage</h2>
+        <button onclick="checkLocalStorage()">Check localStorage</button>
+        <button onclick="clearLocalStorage()">Clear localStorage</button>
+        <pre id="localStorage-output"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Add Sample Habit</h2>
+        <button onclick="addSampleHabit()">Add Sample Habit</button>
+        <pre id="add-habit-output"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Open Main App</h2>
+        <button onclick="openMainApp()">Open Main App</button>
+    </div>
+    
+    <script>
+        function checkLocalStorage() {
+            const data = localStorage.getItem('habit-tracker-data');
+            const output = document.getElementById('localStorage-output');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    output.textContent = JSON.stringify(parsed, null, 2);
+                } catch (e) {
+                    output.textContent = 'Error parsing data: ' + e.message;
+                }
+            } else {
+                output.textContent = 'No data found in localStorage';
+            }
+        }
+        
+        function clearLocalStorage() {
+            localStorage.removeItem('habit-tracker-data');
+            document.getElementById('localStorage-output').textContent = 'localStorage cleared';
+        }
+        
+        function addSampleHabit() {
+            const existingData = localStorage.getItem('habit-tracker-data');
+            let habits = [];
+            
+            if (existingData) {
+                try {
+                    const parsed = JSON.parse(existingData);
+                    habits = parsed.habits || [];
+                } catch (e) {
+                    console.error('Error parsing existing data:', e);
+                }
+            }
+            
+            const newHabit = {
+                id: Date.now().toString(),
+                name: 'Test Habit ' + Date.now(),
+                type: 'daily',
+                category: 'health',
+                color: '#4F46E5',
+                icon: '🧪',
+                startDate: new Date().toISOString(),
+                streak: 0,
+                bestStreak: 0,
+                createdAt: new Date().toISOString(),
+                history: {},
+                archived: false,
+                completedDates: [],
+                frequency: 'Daily'
+            };
+            
+            habits.push(newHabit);
+            
+            localStorage.setItem('habit-tracker-data', JSON.stringify({ habits }));
+            
+            const output = document.getElementById('add-habit-output');
+            output.textContent = 'Added habit: ' + JSON.stringify(newHabit, null, 2);
+        }
+        
+        function openMainApp() {
+            window.open('http://localhost:5173', '_blank');
+        }
+        
+        // Auto-check on load
+        checkLocalStorage();
+    </script>
+</body>
+</html>
