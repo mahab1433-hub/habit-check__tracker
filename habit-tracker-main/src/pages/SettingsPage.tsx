@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { FiChevronLeft, FiChevronRight, FiCheck, FiDownload, FiUpload, FiShare2, FiMessageSquare, FiStar, FiLock, FiUser } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiCheck, FiDownload, FiUpload, FiUser } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import '../components/SettingsModal.css';
 import '../components/LoginPage.css'; // Reuse profile card styles defined here
+import { addNotification } from '../utils/notifications';
 
 type ThemeColor = '#3b82f6' | '#10b981' | '#f59e0b' | '#ef4444' | '#8b5cf6' | '#ec4899' | '#06b6d4' | '#84cc16';
 type DefaultScreen = 'today' | 'overview' | 'habits' | 'tasks' | 'statistics';
@@ -14,12 +15,31 @@ interface SettingsPageProps {
   onBack?: () => void;
 }
 
+interface Settings {
+  defaultScreen: DefaultScreen;
+  darkMode: boolean;
+  themeColor: ThemeColor;
+  passcodeLock: boolean;
+  language: Language;
+  firstDayOfWeek: FirstDayOfWeek;
+  use24HourTime: boolean;
+  vibrationOnTap: boolean;
+  completionSound: boolean;
+  achievementSound: boolean;
+  hideCompleted: boolean;
+  defaultHabitsScreen: DefaultScreen;
+  defaultMoodsScreen: DefaultScreen;
+  currency: Currency;
+  defaultExpensesScreen: DefaultScreen;
+  autoStart: boolean;
+}
+
 export default function SettingsPage({ onBack }: SettingsPageProps) {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [settings, setSettings] = useState(() => {
+  const [settings, setSettings] = useState<Settings>(() => {
     const saved = localStorage.getItem('appSettings');
-    const defaultSettings = {
+    const defaultSettings: Settings = {
       defaultScreen: 'today',
       darkMode: false,
       themeColor: '#8b5cf6',
@@ -46,15 +66,15 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
     document.documentElement.style.setProperty('--primary-color', settings.themeColor);
   }, [settings]);
 
-  const toggleSetting = (key: keyof typeof settings) => {
-    setSettings(prev => ({
+  const toggleSetting = (key: keyof Settings) => {
+    setSettings((prev: Settings) => ({
       ...prev,
       [key]: !prev[key]
     }));
   };
 
-  const updateSetting = <K extends keyof typeof settings>(key: K, value: any) => {
-    setSettings(prev => ({
+  const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
+    setSettings((prev: Settings) => ({
       ...prev,
       [key]: value
     }));
@@ -313,6 +333,46 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
     }
   };
 
+  const handleRequestPermission = () => {
+    if (!('Notification' in window)) {
+      alert('This browser does not support notifications');
+      return;
+    }
+
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        alert('Notifications enabled!');
+        new Notification('Habit Tracker', { body: 'Notifications are working! 🔔' });
+      } else {
+        alert(`Permission ${permission}. Please enable notifications in your browser settings.`);
+      }
+    });
+  };
+
+  const handleTestNotification = () => {
+    if (!('Notification' in window)) return;
+
+    if (Notification.permission === 'granted') {
+      try {
+        const title = 'Test Notification';
+        const message = 'If you see this, reminders will work! 🚀';
+
+        // Save to History (so user can see it in Notification Center)
+        addNotification(title, message, 'system');
+
+        new Notification(title, {
+          body: message,
+          icon: '/vite.svg'
+        });
+      } catch (e) {
+        alert('Error sending notification: ' + e);
+      }
+    } else {
+      alert('Please enable notifications first');
+      handleRequestPermission();
+    }
+  };
+
   const renderSection = () => {
     if (activeSection) {
       // Render detailed section view
@@ -428,6 +488,28 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
                 />
                 <span className="slider"></span>
               </label>
+            </div>
+
+            {/* Notifications Manually */}
+            <div className="setting-item" onClick={handleRequestPermission}>
+              <div className="setting-info">
+                <div className="setting-icon">🔔</div>
+                <div>
+                  <span className="setting-title">Enable Mobile Notifications</span>
+                  <span className="setting-value">{('Notification' in window) ? Notification.permission : 'unsupported'}</span>
+                </div>
+              </div>
+              <FiChevronRight />
+            </div>
+
+            <div className="setting-item" onClick={handleTestNotification}>
+              <div className="setting-info">
+                <div className="setting-icon">🧪</div>
+                <div>
+                  <span className="setting-title">Send Test Notification</span>
+                </div>
+              </div>
+              <FiChevronRight />
             </div>
           </div>
 

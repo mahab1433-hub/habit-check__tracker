@@ -7,6 +7,13 @@ export default defineConfig({
   server: {
     allowedHosts: [
       "idalia-comfortable-ardis.ngrok-free.dev"
-    ]
+    ],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   }
 })

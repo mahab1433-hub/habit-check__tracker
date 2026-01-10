@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HabitType, HabitCategory, HabitInput } from '../../types/habit';
-import { FiX, FiCheck } from 'react-icons/fi';
+
 import './HabitForm.css';
 
 interface HabitFormProps {
@@ -12,14 +12,9 @@ interface HabitFormProps {
 export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormProps) {
   const [name, setName] = useState(initialHabit?.name || '');
   const [type, setType] = useState<HabitType>(initialHabit?.type || 'daily');
-  // Frequency is derived from the habit type
-  const getFrequency = (): 'Daily' | 'Weekly' | 'Monthly' => {
-    const habitType = type || initialHabit?.type || 'daily';
-    return habitType === 'daily' ? 'Daily' :
-           habitType === 'weekly' ? 'Weekly' : 'Monthly';
-  };
-  
-  const frequency = getFrequency();
+
+
+
   const [category, setCategory] = useState<HabitCategory>(initialHabit?.category || 'health');
   const [color, setColor] = useState(initialHabit?.color || '#4F46E5');
   const [icon, setIcon] = useState(initialHabit?.icon || '');
@@ -32,7 +27,7 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const habitData: HabitInput = {
       name,
       type,
@@ -52,8 +47,8 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
   };
 
   const toggleDay = (day: number) => {
-    setSelectedDays(prev => 
-      prev.includes(day) 
+    setSelectedDays(prev =>
+      prev.includes(day)
         ? prev.filter(d => d !== day)
         : [...prev, day].sort()
     );
@@ -86,8 +81,8 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
     <form onSubmit={handleSubmit} className="habit-form">
       <div className="form-header">
         <h2>{initialHabit?.id ? 'Edit Habit' : 'Add New Habit'}</h2>
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="close-button"
           onClick={onCancel}
           aria-label="Close"
@@ -119,10 +114,6 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
                 className={`type-button ${type === t ? 'active' : ''}`}
                 onClick={() => {
                   setType(t);
-                  setFrequency(
-                    t === 'daily' ? 'Daily' : 
-                    t === 'weekly' ? 'Weekly' : 'Monthly'
-                  );
                 }}
               >
                 {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -150,14 +141,14 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
       <div className="form-group">
         <label>Appearance</label>
         <div className="appearance-selector">
-          <div 
-            className="icon-preview" 
+          <div
+            className="icon-preview"
             style={{ backgroundColor: color }}
             onClick={() => setShowReminderDays(!showReminderDays)}
           >
             {icon}
           </div>
-          
+
           {showReminderDays && (
             <div className="appearance-options">
               <div className="color-options">
@@ -224,16 +215,16 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
               >
                 {selectedDays.length === 7
                   ? 'Every day'
-                  : selectedDays.length === 5 && 
+                  : selectedDays.length === 5 &&
                     selectedDays.every(d => [1, 2, 3, 4, 5].includes(d))
-                  ? 'Weekdays'
-                  : selectedDays.length === 2 &&
-                    selectedDays.includes(0) && 
-                    selectedDays.includes(6)
-                  ? 'Weekends'
-                  : selectedDays.length === 0
-                  ? 'No days selected'
-                  : `${selectedDays.length} days selected`}
+                    ? 'Weekdays'
+                    : selectedDays.length === 2 &&
+                      selectedDays.includes(0) &&
+                      selectedDays.includes(6)
+                      ? 'Weekends'
+                      : selectedDays.length === 0
+                        ? 'No days selected'
+                        : `${selectedDays.length} days selected`}
                 <span>▼</span>
               </button>
 
@@ -243,9 +234,8 @@ export default function HabitForm({ initialHabit, onSave, onCancel }: HabitFormP
                     <button
                       key={day.value}
                       type="button"
-                      className={`day-option ${
-                        selectedDays.includes(day.value) ? 'selected' : ''
-                      }`}
+                      className={`day-option ${selectedDays.includes(day.value) ? 'selected' : ''
+                        }`}
                       onClick={() => toggleDay(day.value)}
                     >
                       {day.label}

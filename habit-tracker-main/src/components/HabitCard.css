@@ -56,32 +56,64 @@
 }
 
 .habit-streak {
-    font-size: 0.9rem;
-    color: #9ca3af;
+    font-size: 0.85rem;
+    color: #a1a1aa;
     /* Light grey */
     font-weight: 500;
 }
 
+.habit-action-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .main-check-btn {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    /* New Size: Bigger */
+    height: 42px;
     border-radius: 50%;
-    border: 2px solid #3f3f46;
-    /* Darker border */
-    background: transparent;
+    /* Round/Circle Shape */
+    /* New Shape: Rounded Square/Squircle */
+    border: 2px solid #52525b;
+    background: #27272a;
+    /* Solid Background */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.2rem;
-    color: white;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.5rem;
+    color: #52525b;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle lift */
+}
+
+.main-check-btn:hover {
+    background: #3f3f46;
+    border-color: #71717a;
+    transform: translateY(-2px);
 }
 
 .main-check-btn.completed {
-    background: #a78bfa;
-    border-color: #a78bfa;
-    box-shadow: 0 0 15px rgba(167, 139, 250, 0.3);
+    background: #8b5cf6;
+    /* Vibrant Violet */
+    border-color: #8b5cf6;
+    color: white;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+.main-check-btn svg {
+    stroke-width: 3.5px;
+    /* Extra bold tick */
+    width: 22px;
+    height: 22px;
+}
+
+/* Make tick bolder */
+width: 20px;
+height: 20px;
+drop-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Visual Bodies --- */

@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from
 import { Habit } from './types/habit';
 import { api } from './services/api';
 import { getDateKey } from './utils/storage';
-import HabitDashboard from './components/HabitDashboard';
+
+import { playSuccessSound } from './utils/audio';
+import { useHabitReminders } from './hooks/useHabitReminders';
+
 import HabitList from './components/HabitList';
 import CalendarView from './components/CalendarView';
 import OnboardingScreen from './components/OnboardingScreen';
@@ -19,6 +22,7 @@ import AddHabitPage from './pages/AddHabitPage';
 import HabitPage from './pages/HabitPage';
 import HabitDetailPage from './pages/HabitDetailPage';
 import HelpSupportPage from './pages/HelpSupportPage';
+import NotificationCenter from './components/NotificationCenter';
 import DateSelector from './components/DateSelector';
 import CategorySelector from './components/CategorySelector';
 import TopNavigation from './components/TopNavigation';
@@ -43,12 +47,15 @@ function AppContent() {
     return today;
   });
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [view, setView] = useState<'list' | 'calendar' | 'tasks' | 'stats'>('list');
+  const [view, setView] = useState<'list' | 'calendar' | 'tasks' | 'stats' | 'notifications'>('list');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [feedbackTrigger, setFeedbackTrigger] = useState(0);
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  // Enable Notifications
+  useHabitReminders(habits);
 
   // Initial Onboarding Check (Run once)
   useEffect(() => {
@@ -107,6 +114,7 @@ function AppContent() {
       newCompletedDates.delete(dateKey);
     } else {
       newCompletedDates.add(dateKey);
+      playSuccessSound();
     }
 
     const updatedHabit = { ...habit, completedDates: newCompletedDates };
@@ -130,9 +138,7 @@ function AppContent() {
     return habit.completedDates.has(dateKey);
   };
 
-  const getCompletedCount = (): number => {
-    return habits.filter(habit => isHabitCompleted(habit.id, selectedDate)).length;
-  };
+
 
   const handleSplashFinish = () => {
     setShowSplash(false);
@@ -276,7 +282,7 @@ function AppContent() {
               selectedCategory={selectedCategory}
               onCategorySelect={setSelectedCategory}
             />
-            <main>
+            <main className="app-main">
               {view === 'list' && (
                 <>
                   <DailyFeedback selectedDate={selectedDate} triggerOpen={feedbackTrigger} />
@@ -308,7 +314,10 @@ function AppContent() {
                 <TaskView />
               )}
               {view === 'stats' && (
-                <StatsView habits={habits} />
+                <StatsView habits={habits} selectedDate={selectedDate} />
+              )}
+              {view === 'notifications' && (
+                <NotificationCenter />
               )}
             </main>
             <BottomNavigation

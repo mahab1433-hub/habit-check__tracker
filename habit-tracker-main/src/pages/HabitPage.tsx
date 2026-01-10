@@ -5,64 +5,14 @@ import HabitDashboard from '../components/HabitDashboard';
 // import HabitList from '../components/HabitList';
 import HabitForm from '../components/habits/HabitForm';
 // Import types from the habit types file
-import { Habit, HabitInput, HabitCategory } from '../types/habit';
+import { Habit, HabitInput } from '../types/habit';
 import { api } from '../services/api';
 // import { saveHabits as saveHabitsToStorage, loadHabits as loadHabitsFromStorage, getDateKey } from '../utils/storage';
 import { getDateKey } from '../utils/storage';
+import { playSuccessSound } from '../utils/audio';
+import { addNotification } from '../utils/notifications';
 import './HabitPage.css';
 
-// Helper function to convert old habit format to new format
-function convertToNewHabit(habit: any): Habit {
-  if (!habit) {
-    throw new Error('Habit is required');
-  }
-
-  // If it's already in the new format, return as is
-  if (habit.history !== undefined && habit.archived !== undefined) {
-    return habit as Habit;
-  }
-
-  // Convert from old format
-  const newHabit: Habit = {
-    id: habit.id || Date.now().toString(),
-    name: habit.name || 'New Habit',
-    type: (habit.type || (habit.frequency ? habit.frequency.toLowerCase() : 'daily')) as 'daily' | 'weekly' | 'monthly',
-    category: (habit.category as HabitCategory) || 'other',
-    color: habit.color || '#4F46E5',
-    icon: habit.icon || '📝',
-    startDate: habit.startDate ? new Date(habit.startDate) : new Date(),
-    streak: habit.streak || 0,
-    bestStreak: habit.bestStreak || 0,
-    createdAt: habit.createdAt ? new Date(habit.createdAt) : new Date(),
-    lastCompleted: habit.lastCompleted ? new Date(habit.lastCompleted) : undefined,
-    history: habit.history || {},
-    archived: habit.archived || false,
-    completedDates: habit.completedDates instanceof Set
-      ? habit.completedDates
-      : Array.isArray(habit.completedDates)
-        ? new Set(habit.completedDates)
-        : new Set<string>(),
-    frequency: habit.frequency || 'Daily',
-    reminderTime: habit.reminderTime,
-  };
-
-  // Add reminder if it exists
-  if (habit.reminder) {
-    newHabit.reminder = {
-      enabled: habit.reminder.enabled || false,
-      time: habit.reminder.time || '09:00',
-      days: habit.reminder.days || [1, 2, 3, 4, 5],
-    };
-  } else if (habit.reminderTime) {
-    newHabit.reminder = {
-      enabled: true,
-      time: habit.reminderTime,
-      days: [1, 2, 3, 4, 5], // Default to weekdays
-    };
-  }
-
-  return newHabit;
-}
 
 const HabitPage = () => {
   const navigate = useNavigate();
@@ -93,7 +43,12 @@ const HabitPage = () => {
   }, [loadHabits]);
 
   const updateTheme = (isDark: boolean) => {
-    document.body.className = isDark ? 'dark-theme' : 'light-theme';
+    // document.body.className = isDark ? 'dark-theme' : 'light-theme';
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
   };
 
   // Toggle dark/light mode
@@ -127,6 +82,16 @@ const HabitPage = () => {
       reminder: habitData.reminder
     };
     setHabits(prevHabits => [...prevHabits, newHabit]);
+
+    // Log notification if reminder enabled
+    if (habitData.reminder && habitData.reminder.enabled) {
+      addNotification(
+        'Reminder Set',
+        `You will be reminded to ${habitData.name} at ${habitData.reminder.time}`,
+        'system'
+      );
+    }
+
     setShowAddHabit(false);
   }, []);
 
@@ -153,11 +118,6 @@ const HabitPage = () => {
     setEditingHabit(null);
   }, []);
 
-  // Delete a habit
-  const deleteHabit = useCallback((id: string) => {
-    setHabits(prevHabits => prevHabits.filter(habit => habit.id !== id));
-  }, []);
-
   // Toggle habit completion
   const toggleHabitCompletion = useCallback((id: string, date: Date) => {
     setHabits(prevHabits =>
@@ -171,23 +131,60 @@ const HabitPage = () => {
             newCompletedDates.delete(dateStr);
           } else {
             newCompletedDates.add(dateStr);
+            playSuccessSound();
           }
 
-          // Update streak
-          const today = new Date();
-          const yesterday = new Date(today);
-          yesterday.setDate(yesterday.getDate() - 1);
+          // Recalculate streak dynamically based on the updated set
+          let currentStreak = 0;
+          const checkDate = new Date(); // Start from today
+          checkDate.setHours(0, 0, 0, 0);
 
-          const wasCompletedYesterday = newCompletedDates.has(
-            getDateKey(yesterday)
-          );
+          while (true) {
+            const key = getDateKey(checkDate);
+            if (newCompletedDates.has(key)) {
+              currentStreak++;
+              checkDate.setDate(checkDate.getDate() - 1); // Go back one day
+            } else {
+              // specific edge case: if we are checking today and it's NOT done, 
+              // but yesterday WAS done, the streak is still valid (just not incremented for today yet).
+              // BUT here 'newCompletedDates' ALREADY contains the toggle result.
+              // So if we just toggled ON today, it will be found in the loop.
+              // If we toggled OFF today, it won't be found, so streak stops at yesterday?
 
-          let newStreak = habit.streak;
-          if (!isCompleted) {
-            newStreak = wasCompletedYesterday ? habit.streak + 1 : 1;
-          } else {
-            newStreak = Math.max(0, habit.streak - 1);
+              // Wait, if today is NOT in the set (unchecked), streak should be whatever calculates from yesterday back.
+              // If today IS in the set (checked), streak includes today + backwards.
+
+              // However, the loop starts from TODAY. If today is missed, it breaks immediately -> streak 0.
+              // This is technically correct for "Current Streak" if strictly "consecutive days ending today".
+              // But usually streak counts even if today is not *yet* done, provided yesterday was done.
+
+              // Let's refine:
+              // Check today. If done, streak++. Move to yesterday.
+              // If NOT done, don't increment, but check yesterday. 
+              // If yesterday is done, streak continues from there? 
+              // No, usually "Current Streak" implies an active chain.
+
+              // Let's stick to the standard definition:
+              // Streak = number of consecutive days ending at Today OR Yesterday.
+
+              if (currentStreak === 0) {
+                // Today was not found. Let's check if yesterday starts a streak.
+                // We only do this check if we haven't found any streak yet (i.e. we are at the start of the loop)
+                checkDate.setDate(checkDate.getDate() - 1);
+                const yesterKey = getDateKey(checkDate);
+                if (newCompletedDates.has(yesterKey)) {
+                  // Yesterday is done, so the streak is alive (but today is skipped/pending)
+                  // We continue the loop from yesterday
+                  currentStreak++;
+                  checkDate.setDate(checkDate.getDate() - 1);
+                  continue;
+                }
+              }
+              break;
+            }
           }
+
+          const newStreak = currentStreak;
 
           const updatedHabit: Habit = {
             ...habit,
@@ -196,6 +193,12 @@ const HabitPage = () => {
             bestStreak: Math.max(habit.bestStreak, newStreak),
             lastCompleted: isCompleted ? undefined : new Date()
           };
+
+          // Persist to backend
+          api.updateHabit(updatedHabit).catch(err => {
+            console.error('Failed to update habit streak/completion', err);
+            // Optionally revert state here if strict
+          });
 
           return updatedHabit;
         }
@@ -231,7 +234,7 @@ const HabitPage = () => {
           <FiChevronLeft size={24} />
         </button>
         <h1>My Habits</h1>
-        <div className="header-actions">
+        {/* <div className="header-actions">
           <button className="theme-toggle" onClick={toggleDarkMode}>
             {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
           </button>
@@ -244,7 +247,7 @@ const HabitPage = () => {
           >
             <FiPlus size={20} />
           </button>
-        </div>
+        </div> */}
       </header>
 
       {/* Category Filter */}

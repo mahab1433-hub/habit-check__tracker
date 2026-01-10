@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import { FiPlus } from 'react-icons/fi';
 import './BottomNavigation.css';
 
 interface BottomNavigationProps {
-  currentView: 'list' | 'tasks' | 'stats' | 'calendar';
-  onViewChange: (view: 'list' | 'tasks' | 'stats' | 'calendar') => void;
+  currentView: 'list' | 'tasks' | 'stats' | 'calendar' | 'notifications';
+  onViewChange: (view: 'list' | 'tasks' | 'stats' | 'calendar' | 'notifications') => void;
   onAddHabit: () => void;
 }
 
@@ -35,11 +36,13 @@ function BottomNavigation({ currentView, onViewChange, onAddHabit }: BottomNavig
       </button>
 
       <button
-        className="bottom-nav-item"
+        className="bottom-nav-item center-fab"
         onClick={onAddHabit}
         aria-label="Add Habit"
       >
-        <span className="fab-plus">+</span>
+        <div className="fab-plus">
+          <FiPlus />
+        </div>
       </button>
 
       <button

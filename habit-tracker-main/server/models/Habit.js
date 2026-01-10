@@ -58,6 +58,14 @@ const habitSchema = mongoose.Schema({
             type: String,
             enum: ['day', 'week', 'month']
         }
+    },
+    streak: {
+        type: Number,
+        default: 0
+    },
+    bestStreak: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true

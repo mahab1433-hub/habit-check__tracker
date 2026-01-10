@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Habit } from '../../types/habit';
 import { FiMoreVertical, FiEdit2, FiTrash2, FiX, FiCheck } from 'react-icons/fi';
-import { format } from 'date-fns';
+
 import './HabitCard.css';
 
 interface HabitCardProps {
@@ -34,7 +34,7 @@ const HabitCard = ({ habit, onToggle, onEdit, onDelete }: HabitCardProps) => {
   function calculateCompletionRate(habit: Habit): number {
     const dates = Object.keys(habit.history);
     if (dates.length === 0) return 0;
-    
+
     const completed = dates.filter(date => habit.history[date].completed).length;
     return Math.round((completed / dates.length) * 100);
   }
@@ -67,7 +67,7 @@ const HabitCard = ({ habit, onToggle, onEdit, onDelete }: HabitCardProps) => {
         <div className="habit-icon" style={{ backgroundColor: habit.color }}>
           {habit.icon || '📝'}
         </div>
-        
+
         <div className="habit-info">
           <h3 className="habit-name">{habit.name}</h3>
           <div className="habit-meta">
@@ -78,21 +78,21 @@ const HabitCard = ({ habit, onToggle, onEdit, onDelete }: HabitCardProps) => {
             )}
           </div>
           <div className="progress-bar">
-            <div 
-              className="progress-fill" 
+            <div
+              className="progress-fill"
               style={{ width: `${completionRate}%` }}
             />
           </div>
         </div>
-        
+
         <div className={`status-indicator ${isCompleted ? 'completed' : ''}`}>
           {isCompleted ? <FiCheck /> : null}
         </div>
       </div>
 
       <div className="habit-actions" ref={menuRef}>
-        <button 
-          className="menu-button" 
+        <button
+          className="menu-button"
           onClick={(e) => {
             e.stopPropagation();
             setShowMenu(!showMenu);
@@ -107,8 +107,8 @@ const HabitCard = ({ habit, onToggle, onEdit, onDelete }: HabitCardProps) => {
             <button onClick={handleEdit} className="menu-item">
               <FiEdit2 /> Edit
             </button>
-            <button 
-              onClick={handleDelete} 
+            <button
+              onClick={handleDelete}
               className={`menu-item delete ${showDeleteConfirm ? 'confirm' : ''}`}
             >
               <FiTrash2 /> {showDeleteConfirm ? 'Confirm?' : 'Delete'}

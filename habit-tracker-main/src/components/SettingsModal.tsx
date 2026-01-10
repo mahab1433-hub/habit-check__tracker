@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiX, FiChevronRight, FiCheck, FiDownload, FiUpload, FiShare2, FiMessageSquare, FiStar, FiLock, FiSun, FiMoon } from 'react-icons/fi';
+import { FiX, FiChevronRight, FiCheck, FiDownload, FiUpload, FiShare2, FiMessageSquare, FiStar, FiChevronLeft } from 'react-icons/fi';
 import './SettingsModal.css';
 
 type ThemeColor = '#3b82f6' | '#10b981' | '#f59e0b' | '#ef4444' | '#8b5cf6' | '#ec4899' | '#06b6d4' | '#84cc16';
@@ -10,33 +10,33 @@ type Language = 'en' | 'es' | 'fr' | 'de' | 'hi' | 'ta';
 interface Settings {
   // General
   defaultScreen: DefaultScreen;
-  
+
   // Appearance
   darkMode: boolean;
   themeColor: ThemeColor;
-  
+
   // General Settings
   passcodeLock: boolean;
   language: Language;
   firstDayOfWeek: FirstDayOfWeek;
   use24HourTime: boolean;
-  
+
   // Sounds & Haptics
   vibrationOnTap: boolean;
   completionSound: boolean;
   achievementSound: boolean;
-  
+
   // Habits & Tasks
   hideCompleted: boolean;
   defaultHabitsScreen: DefaultScreen;
-  
+
   // Moods
   defaultMoodsScreen: 'today' | 'calendar' | 'stats';
-  
+
   // Expenses
   currency: string;
   defaultExpensesScreen: 'overview' | 'today';
-  
+
   // About
   autoStart: boolean;
 }
@@ -60,14 +60,7 @@ const DEFAULT_SETTINGS: Settings = {
   autoStart: false,
 };
 
-const LANGUAGES = [
-  { value: 'en', label: 'English' },
-  { value: 'es', label: 'Español' },
-  { value: 'fr', label: 'Français' },
-  { value: 'de', label: 'Deutsch' },
-  { value: 'hi', label: 'हिंदी' },
-  { value: 'ta', label: 'தமிழ்' },
-];
+
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -83,7 +76,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
 
   useEffect(() => {
     localStorage.setItem('appSettings', JSON.stringify(settings));
-    
+
     // Apply theme
     document.documentElement.setAttribute('data-theme', settings.darkMode ? 'dark' : 'light');
     document.documentElement.style.setProperty('--primary-color', settings.themeColor);
@@ -120,7 +113,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
               </div>
               <FiChevronRight />
             </div>
-            
+
             <div className="setting-item">
               <div className="setting-info">
                 <span className="setting-title">First Day of Week</span>
@@ -130,7 +123,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
               </div>
               <FiChevronRight />
             </div>
-            
+
             <div className="setting-item">
               <div className="setting-info">
                 <span className="setting-title">24-Hour Time</span>
@@ -139,17 +132,17 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 </span>
               </div>
               <label className="switch">
-                <input 
-                  type="checkbox" 
-                  checked={settings.use24HourTime} 
-                  onChange={() => toggleSetting('use24HourTime')} 
+                <input
+                  type="checkbox"
+                  checked={settings.use24HourTime}
+                  onChange={() => toggleSetting('use24HourTime')}
                 />
                 <span className="slider round"></span>
               </label>
             </div>
           </div>
         );
-      
+
       case 'appearance':
         return (
           <div className="settings-section">
@@ -159,21 +152,21 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 <span className="setting-title">Dark Mode</span>
               </div>
               <label className="switch">
-                <input 
-                  type="checkbox" 
-                  checked={settings.darkMode} 
-                  onChange={() => toggleSetting('darkMode')} 
+                <input
+                  type="checkbox"
+                  checked={settings.darkMode}
+                  onChange={() => toggleSetting('darkMode')}
                 />
                 <span className="slider round"></span>
               </label>
             </div>
-            
+
             <div className="setting-item">
               <div className="setting-info">
                 <span className="setting-title">Theme Color</span>
                 <div className="theme-colors">
                   {['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'].map(color => (
-                    <div 
+                    <div
                       key={color}
                       className={`color-option ${settings.themeColor === color ? 'active' : ''}`}
                       style={{ backgroundColor: color }}
@@ -187,9 +180,9 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
             </div>
           </div>
         );
-      
+
       // Add more sections as needed...
-      
+
       default:
         return (
           <>
@@ -203,7 +196,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 <FiChevronRight />
               </div>
             </div>
-            
+
             <div className="settings-section">
               <h3>Appearance</h3>
               <div className="setting-item" onClick={() => setActiveSection('appearance')}>
@@ -214,7 +207,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 <FiChevronRight />
               </div>
             </div>
-            
+
             <div className="settings-section">
               <h3>Sounds & Haptics</h3>
               <div className="setting-item">
@@ -223,46 +216,46 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <span className="setting-title">Vibration on Tap</span>
                 </div>
                 <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={settings.vibrationOnTap} 
-                    onChange={() => toggleSetting('vibrationOnTap')} 
+                  <input
+                    type="checkbox"
+                    checked={settings.vibrationOnTap}
+                    onChange={() => toggleSetting('vibrationOnTap')}
                   />
                   <span className="slider round"></span>
                 </label>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <div className="setting-icon">🔔</div>
                   <span className="setting-title">Completion Sound</span>
                 </div>
                 <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={settings.completionSound} 
-                    onChange={() => toggleSetting('completionSound')} 
+                  <input
+                    type="checkbox"
+                    checked={settings.completionSound}
+                    onChange={() => toggleSetting('completionSound')}
                   />
                   <span className="slider round"></span>
                 </label>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <div className="setting-icon">🏆</div>
                   <span className="setting-title">Achievement Sound</span>
                 </div>
                 <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={settings.achievementSound} 
-                    onChange={() => toggleSetting('achievementSound')} 
+                  <input
+                    type="checkbox"
+                    checked={settings.achievementSound}
+                    onChange={() => toggleSetting('achievementSound')}
                   />
                   <span className="slider round"></span>
                 </label>
               </div>
             </div>
-            
+
             <div className="settings-section">
               <h3>Habits & Tasks</h3>
               <div className="setting-item">
@@ -271,15 +264,15 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <span className="setting-title">Hide Completed Activities</span>
                 </div>
                 <label className="switch">
-                  <input 
-                    type="checkbox" 
-                    checked={settings.hideCompleted} 
-                    onChange={() => toggleSetting('hideCompleted')} 
+                  <input
+                    type="checkbox"
+                    checked={settings.hideCompleted}
+                    onChange={() => toggleSetting('hideCompleted')}
                   />
                   <span className="slider round"></span>
                 </label>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <div className="setting-icon">📁</div>
@@ -287,7 +280,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 </div>
                 <FiChevronRight />
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <div className="setting-icon">↕️</div>
@@ -296,7 +289,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 <FiChevronRight />
               </div>
             </div>
-            
+
             <div className="settings-section">
               <h3>Data & Backup</h3>
               <div className="setting-item">
@@ -305,7 +298,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <span className="setting-title">Create Backup</span>
                 </div>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <FiUpload className="setting-icon" />
@@ -313,7 +306,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                 </div>
               </div>
             </div>
-            
+
             <div className="settings-section">
               <h3>About</h3>
               <div className="setting-item">
@@ -322,21 +315,21 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <span className="setting-title">Rate on Play Store</span>
                 </div>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <FiMessageSquare className="setting-icon" />
                   <span className="setting-title">Send Feedback</span>
                 </div>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <FiShare2 className="setting-icon" />
                   <span className="setting-title">Share App</span>
                 </div>
               </div>
-              
+
               <div className="setting-item">
                 <div className="setting-info">
                   <span className="setting-title">Version</span>
@@ -365,7 +358,7 @@ export default function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
             <FiX />
           </button>
         </div>
-        
+
         <div className="settings-content">
           {renderSection()}
         </div>

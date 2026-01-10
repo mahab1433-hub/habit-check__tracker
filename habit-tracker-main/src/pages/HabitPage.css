@@ -11,7 +11,10 @@
 /* Header styles */
 .habit-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  /* Left align */
+  gap: 1rem;
+  /* Space between back button and title */
   align-items: center;
   padding: 1rem;
   background-color: #000000;
@@ -174,6 +177,24 @@
   padding: 1rem;
   padding-bottom: 5rem;
   /* Space for bottom navigation */
+
+  /* Custom Scrollbar for this container */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-secondary);
+}
+
+.habit-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+.habit-main::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.habit-main::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 3px;
 }
 
 /* Empty state */

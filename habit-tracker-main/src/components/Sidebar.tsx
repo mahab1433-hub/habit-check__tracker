@@ -1,11 +1,11 @@
-import { useState } from 'react';
+
 import { FiX, FiHome, FiCalendar, FiCheckSquare, FiBarChart2, FiSettings, FiUser, FiBell, FiHelpCircle } from 'react-icons/fi';
 import './Sidebar.css';
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  onNavigate: (view: 'list' | 'calendar' | 'tasks' | 'stats') => void;
+  onNavigate: (view: 'list' | 'calendar' | 'tasks' | 'stats' | 'notifications') => void;
   onSettingsClick: () => void;
   onHelpClick: () => void;
 }
@@ -70,7 +70,7 @@ function Sidebar({ isOpen, onClose, onNavigate, onSettingsClick, onHelpClick }: 
             <span>Settings</span>
           </button>
 
-          <button className="sidebar-item">
+          <button className="sidebar-item" onClick={() => { onNavigate('notifications'); onClose(); }}>
             <FiBell />
             <span>Notifications</span>
           </button>

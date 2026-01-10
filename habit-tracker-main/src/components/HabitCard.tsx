@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { Habit } from '../types/habit';
 import { FiCheck } from 'react-icons/fi';
 import { DashboardView } from './HabitDashboard';
+import { getDateKey } from '../utils/storage';
 import './HabitCard.css';
 
 interface HabitCardProps {
@@ -16,10 +17,7 @@ function HabitCard({ habit, view, onToggle, isCompleted }: HabitCardProps) {
     const navigate = useNavigate();
     const today = new Date();
 
-    // Helper to get formatted date string YYYY-MM-DD
-    const getDateKey = (date: Date) => {
-        return date.toISOString().split('T')[0];
-    };
+
 
     const isTodayCompleted = isCompleted(habit.id, today);
 
@@ -183,15 +181,16 @@ function HabitCard({ habit, view, onToggle, isCompleted }: HabitCardProps) {
                     </div>
                 </div>
 
+
                 <div className="habit-action-right">
                     <button
                         className={`main-check-btn ${isTodayCompleted ? 'completed' : ''}`}
                         onClick={(e) => {
-                            e.stopPropagation(); // Stop bubbling immediately
+                            e.stopPropagation();
                             onToggle(habit.id, today);
                         }}
                     >
-                        {isTodayCompleted && <FiCheck />}
+                        <FiCheck />
                     </button>
                 </div>
             </div>
@@ -204,7 +203,7 @@ function HabitCard({ habit, view, onToggle, isCompleted }: HabitCardProps) {
             </div>
 
             {view === 'weekly' && <span className="view-label">Everyday</span>}
-        </div>
+        </div >
     );
 }
 

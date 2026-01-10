@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
 import './CategorySelector.css';
 

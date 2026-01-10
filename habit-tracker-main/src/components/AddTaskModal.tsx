@@ -45,7 +45,7 @@ function AddTaskModal({ isOpen, onClose, onSave, editingTask }: AddTaskModalProp
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!title.trim()) {
       setError('Task title is required');
       return;
@@ -75,7 +75,7 @@ function AddTaskModal({ isOpen, onClose, onSave, editingTask }: AddTaskModalProp
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content add-task-modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{editingTask ? 'Edit Task' : 'Add New Task'}</h2>
           <button className="modal-close" onClick={handleCancel} aria-label="Close">

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Habit } from '../types';
-import { getDateKey } from '../utils/storage';
+
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import DatePicker from './DatePicker';
+
 import './CalendarView.css';
 
 interface CalendarViewProps {
@@ -103,8 +103,8 @@ function CalendarView({
     <div className="calendar-view">
       <div className="calendar-title-bar">
         <div className="calendar-nav">
-          <button 
-            className="nav-button" 
+          <button
+            className="nav-button"
             onClick={() => navigateMonth('prev')}
             title="Previous month"
           >
@@ -113,8 +113,8 @@ function CalendarView({
           <h2 className="calendar-name" onClick={() => setShowMonthSelector(!showMonthSelector)}>
             {monthName} {year}
           </h2>
-          <button 
-            className="nav-button" 
+          <button
+            className="nav-button"
             onClick={() => navigateMonth('next')}
             title="Next month"
           >
@@ -122,16 +122,16 @@ function CalendarView({
           </button>
         </div>
         <div className="title-bar-buttons">
-          <button 
-            className="add-habit-button" 
-            onClick={() => setShowMonthSelector(!showMonthSelector)} 
+          <button
+            className="add-habit-button"
+            onClick={() => setShowMonthSelector(!showMonthSelector)}
             title="Select month"
           >
             <span className="plus-icon">+</span>
           </button>
         </div>
       </div>
-      
+
       {showMonthSelector && (
         <div className="month-selector">
           <div className="month-grid">
@@ -158,7 +158,7 @@ function CalendarView({
         {days.map((day, index) => {
           const isCurrentMonthDay = isCurrentMonth(day);
           const isToday = isTodayDate(day);
-          const dateKey = getDateKey(day);
+
 
           return (
             <div

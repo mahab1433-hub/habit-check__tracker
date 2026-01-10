@@ -98,6 +98,30 @@
   gap: 2rem;
   padding-bottom: 5rem;
   /* Space for bottom navigation */
+
+  /* Scrollbar Logic */
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 180px);
+  /* Approx height minus header/nav */
+
+  /* Custom Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-secondary);
+}
+
+.app-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app-main::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.app-main::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 3px;
 }
 
 .empty-state {

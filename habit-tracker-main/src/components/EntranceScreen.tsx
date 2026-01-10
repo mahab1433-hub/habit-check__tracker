@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiBarChart2, FiClock, FiGrid, FiCloud, FiLayout, FiGlobe, FiArrowRight } from 'react-icons/fi';
+import { FiBarChart2, FiClock, FiGrid, FiCloud, FiLayout, FiGlobe } from 'react-icons/fi';
 import './EntranceScreen.css';
 
 interface EntranceScreenProps {

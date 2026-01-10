@@ -1,7 +1,7 @@
 import { Habit } from '../types/habit';
 
-// Ensure this matches your backend URL
-const API_URL = 'http://localhost:5000/api/habits';
+// Use relative path so it works with proxy (local & ngrok)
+const API_URL = '/api/habits';
 
 export const api = {
     fetchHabits: async (): Promise<Habit[]> => {
@@ -96,6 +96,67 @@ export const api = {
             return res.ok;
         } catch (error) {
             console.error('Delete Error:', error);
+            return false;
+        }
+    },
+
+    // --- TASKS API ---
+    fetchTasks: async (): Promise<any[]> => {
+        try {
+            const res = await fetch('/api/tasks');
+            if (!res.ok) throw new Error('Failed to fetch tasks');
+            const data = await res.json();
+            return data.map((t: any) => ({
+                ...t,
+                id: t._id, // Map MongoDB _id to frontend id
+            }));
+        } catch (error) {
+            console.error('API Error:', error);
+            return [];
+        }
+    },
+
+    createTask: async (task: any): Promise<any | null> => {
+        try {
+            const res = await fetch('/api/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(task),
+            });
+            if (!res.ok) throw new Error('Failed to create task');
+            const t = await res.json();
+            return { ...t, id: t._id };
+        } catch (error) {
+            console.error('Create Task Error:', error);
+            return null;
+        }
+    },
+
+    updateTask: async (task: any): Promise<any | null> => {
+        try {
+            const { id, _id, ...rest } = task; // Exclude id from body if needed, or Mongo handles it
+            const res = await fetch(`/api/tasks/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(rest),
+            });
+            if (!res.ok) throw new Error('Failed to update task');
+            const t = await res.json();
+            return { ...t, id: t._id };
+        } catch (error) {
+            console.error('Update Task Error:', error);
+            return null;
+        }
+    },
+
+    deleteTask: async (id: string): Promise<boolean> => {
+        try {
+            const res = await fetch(`/api/tasks/${id}`, {
+                method: 'DELETE',
+            });
+            return res.ok;
+        } catch (error) {
+            console.error('Delete Task Error:', error);
             return false;
         }
     }

@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/habits', require('./routes/habits'));
+app.use('/api/tasks', require('./routes/tasks'));
 
 const PORT = process.env.PORT || 5000;
 

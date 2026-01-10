@@ -1,60 +1,80 @@
 import { useState, useEffect } from 'react';
 import { Task } from '../types';
-import { saveTasks, loadTasks } from '../utils/storage';
+import { api } from '../services/api';
 import TaskItem from './TaskItem';
 import AddTaskModal from './AddTaskModal';
+import { playSuccessSound } from '../utils/audio';
 import './TaskView.css';
 
 function TaskView() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchTasks = async () => {
+    setIsLoading(true);
+    const data = await api.fetchTasks();
+    setTasks(data);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    setTasks(loadTasks());
+    fetchTasks();
   }, []);
 
-  useEffect(() => {
-    if (tasks.length > 0) {
-      saveTasks(tasks);
-    } else {
-      // Save empty array to clear storage
-      saveTasks([]);
-    }
-  }, [tasks]);
+  // Removed localStorage useEffects
 
-  const addTask = (title: string, description: string, dueDate: string, priority: 'Low' | 'Medium' | 'High') => {
-    const newTask: Task = {
-      id: Date.now().toString(),
+  const addTask = async (title: string, description: string, dueDate: string, priority: 'Low' | 'Medium' | 'High') => {
+    const newTask = {
       title: title.trim(),
       description: description.trim() || undefined,
       dueDate,
       priority,
       status: 'Pending',
-      createdAt: new Date().toISOString(),
     };
-    setTasks([...tasks, newTask]);
+    const created = await api.createTask(newTask);
+    if (created) {
+      setTasks(prev => [...prev, created]);
+    }
   };
 
-  const updateTask = (id: string, title: string, description: string, dueDate: string, priority: 'Low' | 'Medium' | 'High') => {
-    setTasks(tasks.map(task => 
-      task.id === id 
-        ? { ...task, title: title.trim(), description: description.trim() || undefined, dueDate, priority }
-        : task
-    ));
-    setEditingTask(null);
+  const updateTask = async (id: string, title: string, description: string, dueDate: string, priority: 'Low' | 'Medium' | 'High') => {
+    const taskToUpdate = tasks.find(t => t.id === id);
+    if (!taskToUpdate) return;
+
+    const updatedData = { ...taskToUpdate, title, description, dueDate, priority };
+    const updated = await api.updateTask(updatedData);
+
+    if (updated) {
+      setTasks(prev => prev.map(t => t.id === id ? updated : t));
+      setEditingTask(null);
+    }
   };
 
-  const toggleTaskStatus = (id: string) => {
-    setTasks(tasks.map(task =>
-      task.id === id
-        ? { ...task, status: task.status === 'Completed' ? 'Pending' : 'Completed' }
-        : task
-    ));
+  const toggleTaskStatus = async (id: string) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+
+    const newStatus = task.status === 'Completed' ? 'Pending' : 'Completed';
+    // Optimistic update
+    setTasks(prev => prev.map(t => t.id === id ? { ...t, status: newStatus } : t));
+
+    if (newStatus === 'Completed') playSuccessSound();
+
+    const updated = await api.updateTask({ ...task, status: newStatus });
+    // Revert if failed (optional, but good practice)
+    if (!updated) {
+      console.error("Failed to update status");
+      setTasks(prev => prev.map(t => t.id === id ? task : t));
+    }
   };
 
-  const deleteTask = (id: string) => {
-    setTasks(tasks.filter(task => task.id !== id));
+  const deleteTask = async (id: string) => {
+    const success = await api.deleteTask(id);
+    if (success) {
+      setTasks(prev => prev.filter(t => t.id !== id));
+    }
   };
 
   const handleEdit = (task: Task) => {
@@ -73,18 +93,18 @@ function TaskView() {
     if (a.status !== b.status) {
       return a.status === 'Pending' ? -1 : 1;
     }
-    
+
     // Then by priority
     const priorityOrder = { High: 3, Medium: 2, Low: 1 };
     if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     }
-    
+
     // Then by due date (nearest first)
     if (a.dueDate !== b.dueDate) {
       return a.dueDate.localeCompare(b.dueDate);
     }
-    
+
     // Finally by creation date (newest first)
     return b.createdAt.localeCompare(a.createdAt);
   });
@@ -119,7 +139,7 @@ function TaskView() {
         <AddTaskModal
           isOpen={isAddModalOpen}
           onClose={handleCloseModal}
-          onSave={editingTask 
+          onSave={editingTask
             ? (title, description, dueDate, priority) => updateTask(editingTask.id, title, description, dueDate, priority)
             : addTask
           }
