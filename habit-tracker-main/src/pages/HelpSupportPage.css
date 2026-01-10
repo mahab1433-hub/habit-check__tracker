@@ -1,0 +1,267 @@
+.help-page {
+    padding: 2rem;
+    background-color: #000000;
+    min-height: 100vh;
+    color: #EDEDED;
+    padding-bottom: 80px;
+    /* Space for bottom nav if needed */
+}
+
+.help-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.help-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #FFFFFF;
+}
+
+.help-subtitle {
+    color: #888;
+    font-size: 1rem;
+}
+
+/* Quick Action Cards */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.action-card {
+    background-color: #111111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.action-card:hover {
+    background-color: #1A1A1A;
+    transform: translateY(-2px);
+}
+
+.action-icon {
+    font-size: 1.8rem;
+    color: #3b82f6;
+    /* Accent color */
+}
+
+.action-text {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Sections */
+.help-section {
+    margin-bottom: 3rem;
+    scroll-margin-top: 2rem;
+    /* For smooth scroll positioning */
+}
+
+.section-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+}
+
+/* Accordion (FAQ) */
+.faq-item {
+    background-color: #111111;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    overflow: hidden;
+    border: 1px solid #222;
+}
+
+.faq-question {
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.faq-answer {
+    padding: 0 1.2rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    color: #AAA;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.faq-item.open .faq-answer {
+    padding-bottom: 1.2rem;
+    max-height: 200px;
+    /* Approximate max height */
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.faq-item.open .faq-icon {
+    transform: rotate(180deg);
+}
+
+/* How To Use Steps */
+.guide-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.guide-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: #111111;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.step-number {
+    background-color: #222;
+    color: #FFF;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Report Form */
+.report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #111111;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #222;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    color: #CCC;
+}
+
+.form-select,
+.form-textarea {
+    background-color: #000;
+    border: 1px solid #333;
+    color: #FFF;
+    padding: 0.8rem;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.submit-btn {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 0.5rem;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
+
+.success-message {
+    color: #10b981;
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+/* Contact Support */
+.contact-card {
+    background-color: #111111;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #222;
+}
+
+.contact-email {
+    display: inline-block;
+    color: #3b82f6;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    text-decoration: none;
+}
+
+.contact-note {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* App Info Footer */
+.app-info {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #222;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.app-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.app-link {
+    color: #888;
+    text-decoration: none;
+}
+
+.app-link:hover {
+    color: #FFF;
+}

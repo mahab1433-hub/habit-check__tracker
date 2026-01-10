@@ -18,6 +18,7 @@ import SettingsPage from './pages/SettingsPage';
 import AddHabitPage from './pages/AddHabitPage';
 import HabitPage from './pages/HabitPage';
 import HabitDetailPage from './pages/HabitDetailPage';
+import HelpSupportPage from './pages/HelpSupportPage';
 import DateSelector from './components/DateSelector';
 import CategorySelector from './components/CategorySelector';
 import TopNavigation from './components/TopNavigation';
@@ -154,6 +155,10 @@ function AppContent() {
     navigate('/settings');
   };
 
+  const handleHelpClick = () => {
+    navigate('/help');
+  };
+
   const handleMenuClick = () => {
     setIsSidebarOpen(true);
   };
@@ -229,6 +234,7 @@ function AppContent() {
         onClose={() => setIsSidebarOpen(false)}
         onNavigate={setView}
         onSettingsClick={handleSettingsClick}
+        onHelpClick={handleHelpClick}
       />
       <Routes>
         <Route path="/settings" element={
@@ -242,6 +248,9 @@ function AppContent() {
         } />
         <Route path="/add-habit" element={
           <AddHabitPage />
+        } />
+        <Route path="/help" element={
+          <HelpSupportPage />
         } />
         <Route path="/" element={
           <>
