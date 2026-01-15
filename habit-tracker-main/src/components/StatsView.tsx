@@ -199,7 +199,7 @@ function StatsView({ habits, selectedDate }: StatsViewProps) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
       const k = getDateKey(d);
-      const feedbackStr = localStorage.getItem(`daily_feedback_${k}`);
+      const feedbackStr = localStorage.getItem(`daily_journal_${k}`);
       if (feedbackStr) {
         const fb = JSON.parse(feedbackStr);
         moodTrend.push({
@@ -232,7 +232,7 @@ function StatsView({ habits, selectedDate }: StatsViewProps) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
       const k = getDateKey(d);
-      const feedbackStr = localStorage.getItem(`daily_feedback_${k}`);
+      const feedbackStr = localStorage.getItem(`daily_journal_${k}`);
       if (feedbackStr) {
         const fb = JSON.parse(feedbackStr);
         if (fb.rating >= 1 && fb.rating <= 5) {

@@ -1,0 +1,105 @@
+.task-detail-page {
+    padding: 20px;
+    background-color: #000;
+    min-height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-detail-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 16px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.task-detail-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.task-detail-content {
+    background: #111;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.detail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-label {
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.detail-input {
+    background: #1c1c1e;
+    border: 1px solid #333;
+    color: white;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.detail-input:focus {
+    border-color: #3b82f6;
+}
+
+.detail-row {
+    display: flex;
+    gap: 16px;
+}
+
+.detail-row .detail-group {
+    flex: 1;
+}
+
+.save-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: auto;
+    transition: background 0.2s;
+}
+
+.save-btn:hover {
+    background: #2563eb;
+}
+
+.save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

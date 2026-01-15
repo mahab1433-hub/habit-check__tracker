@@ -16,12 +16,18 @@ import AllSetScreen from './components/AllSetScreen';
 
 import TaskView from './components/TaskView';
 import StatsView from './components/StatsView';
+
+
 import BottomNavigation from './components/BottomNavigation';
 import SettingsPage from './pages/SettingsPage';
 import AddHabitPage from './pages/AddHabitPage';
 import HabitPage from './pages/HabitPage';
 import HabitDetailPage from './pages/HabitDetailPage';
 import HelpSupportPage from './pages/HelpSupportPage';
+import JournalPage from './pages/JournalPage';
+import FocusPage from './pages/FocusPage';
+import FocusStatsPage from './pages/FocusStatsPage';
+
 import NotificationCenter from './components/NotificationCenter';
 import DateSelector from './components/DateSelector';
 import CategorySelector from './components/CategorySelector';
@@ -30,7 +36,7 @@ import Sidebar from './components/Sidebar';
 import './App.css';
 import './themes.css';
 import LoginPage from './components/LoginPage';
-import DailyFeedback from './components/DailyFeedback';
+import DailyJournal from './components/DailyJournal';
 
 function AppContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -49,7 +55,6 @@ function AppContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [view, setView] = useState<'list' | 'calendar' | 'tasks' | 'stats' | 'notifications'>('list');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [feedbackTrigger, setFeedbackTrigger] = useState(0);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -62,10 +67,8 @@ function AppContent() {
     const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
 
     if (hasSeenOnboarding === 'true') {
-      setShowSplash(true);
       setShowOnboarding(false);
     } else {
-      setShowSplash(false);
       setShowOnboarding(true);
     }
   }, []);
@@ -179,14 +182,8 @@ function AppContent() {
     setView('list');
   };
 
-  const handleFeedbackClick = () => {
-    // Trigger feedback card
-    setFeedbackTrigger(prev => prev + 1);
-    // Ensure we are on "Today" and "List" view so the user can see it
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    setSelectedDate(today);
-    setView('list');
+  const handleJournalClick = () => {
+    navigate('/journal');
   };
 
   const handleCalendarClick = () => {
@@ -194,12 +191,6 @@ function AppContent() {
   };
 
 
-
-  if (!isAuthenticated) {
-    return (
-      <LoginPage onLogin={() => setIsAuthenticated(true)} />
-    );
-  }
 
   if (showSplash) {
     return (
@@ -217,6 +208,12 @@ function AppContent() {
     );
   }
 
+  if (!isAuthenticated) {
+    return (
+      <LoginPage onLogin={() => setIsAuthenticated(true)} />
+    );
+  }
+
   if (showQuestions) {
     return (
       <div className="app">
@@ -224,7 +221,7 @@ function AppContent() {
           onMenuClick={handleMenuClick}
           onTodayClick={handleTodayClick}
           onSettingsClick={handleSettingsClick}
-          onFeedbackClick={handleFeedbackClick}
+          onJournalClick={handleJournalClick}
           onCalendarClick={handleCalendarClick}
         />
         <QuestionnaireScreen onComplete={handleQuestionsComplete} />
@@ -262,16 +259,27 @@ function AppContent() {
         <Route path="/add-habit" element={
           <AddHabitPage />
         } />
+
         <Route path="/help" element={
           <HelpSupportPage />
         } />
+        <Route path="/journal" element={
+          <JournalPage />
+        } />
+        <Route path="/focus/:taskId" element={
+          <FocusPage />
+        } />
+        <Route path="/focus-stats" element={
+          <FocusStatsPage />
+        } />
+
         <Route path="/" element={
           <>
             <TopNavigation
               onMenuClick={handleMenuClick}
               onTodayClick={handleTodayClick}
               onSettingsClick={handleSettingsClick}
-              onFeedbackClick={handleFeedbackClick}
+              onJournalClick={handleJournalClick}
               onCalendarClick={handleCalendarClick}
             />
             <DateSelector
@@ -285,7 +293,7 @@ function AppContent() {
             <main className="app-main">
               {view === 'list' && (
                 <>
-                  <DailyFeedback selectedDate={selectedDate} triggerOpen={feedbackTrigger} />
+                  <DailyJournal selectedDate={selectedDate} onClick={handleJournalClick} />
                   <HabitList
                     habits={habits}
                     selectedDate={selectedDate}

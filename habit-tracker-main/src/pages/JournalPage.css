@@ -1,0 +1,205 @@
+.journal-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Header Styles */
+.journal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: transparent;
+}
+
+.header-icon-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.header-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-icon-btn.save-btn {
+    background: #003366;
+    /* Deep blue from mockup */
+    color: #ffffff;
+}
+
+.header-date-container {
+    text-align: center;
+    position: relative;
+}
+
+.header-date-wrapper {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.hidden-date-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.header-date {
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    position: relative;
+    z-index: 1;
+}
+
+.calendar-arrow {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.header-timestamp {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 2px;
+}
+
+/* Editor Styles */
+.journal-editor {
+    flex: 1;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.journal-title-input {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    outline: none;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+    padding: 0;
+    /* Remove any padding to make it look "on the page" */
+}
+
+.journal-title-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.journal-content-editable {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    outline: none;
+    font-family: 'Outfit', sans-serif;
+    min-height: 200px;
+}
+
+.journal-content-editable:empty:before {
+    content: attr(data-placeholder);
+    color: rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+}
+
+/* List Styling in ContentEditable */
+.journal-content-editable ul,
+.journal-content-editable ol {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.journal-content-editable li {
+    margin-bottom: 5px;
+}
+
+/* Toolbar Styles */
+.journal-toolbar {
+    padding: 12px 16px 24px 16px;
+    background: #000000;
+}
+
+.toolbar-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: transparent;
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.toolbar-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.toolbar-btn:active {
+    transform: scale(0.9);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+    .journal-title-input {
+        font-size: 2rem;
+    }
+
+    .journal-content-editable {
+        font-size: 1rem;
+    }
+
+    .toolbar-main {
+        justify-content: space-between;
+    }
+
+    .toolbar-btn {
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+}

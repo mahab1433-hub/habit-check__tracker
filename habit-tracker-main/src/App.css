@@ -14,7 +14,7 @@
 
 /* Ensure all text is white */
 .app * {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 /* Keep button text white */

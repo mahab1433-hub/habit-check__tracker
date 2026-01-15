@@ -32,6 +32,10 @@ interface Settings {
   currency: Currency;
   defaultExpensesScreen: DefaultScreen;
   autoStart: boolean;
+  focusDuration: number | null;
+  shortBreakDuration: number;
+  longBreakDuration: number;
+  autoStartBreaks: boolean;
 }
 
 export default function SettingsPage({ onBack }: SettingsPageProps) {
@@ -56,6 +60,10 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
       currency: '₹',
       defaultExpensesScreen: 'overview',
       autoStart: false,
+      focusDuration: null,
+      shortBreakDuration: 300,
+      longBreakDuration: 1800,
+      autoStartBreaks: true,
     };
     return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
   });
@@ -96,7 +104,8 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
       'habits-tasks': 'Habits & Tasks',
       'moods': 'Moods',
       'expenses': 'Expenses',
-      'data-backup': 'Data & Backup'
+      'data-backup': 'Data & Backup',
+      'focus-mode': 'Focus Mode'
     };
     return titles[section] || section;
   };
@@ -273,6 +282,60 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
               <span className="setting-title">Customize Quick Actions</span>
               <span className="setting-value">Choose actions shown in quick access menu</span>
             </div>
+          </div>
+        );
+
+      case 'focus-mode':
+        return (
+          <div className="settings-section">
+            <div className="setting-item">
+              <span className="setting-title">Focus Session Duration</span>
+            </div>
+            {[
+              { label: 'Infinity (Count up)', value: null },
+              { label: '25 Minutes', value: 1500 },
+              { label: '45 Minutes', value: 2700 },
+              { label: '60 Minutes', value: 3600 }
+            ].map(opt => (
+              <div key={opt.label} className="setting-item" onClick={() => updateSetting('focusDuration', opt.value)}>
+                <div className="setting-info">
+                  <span className="setting-title">{opt.label}</span>
+                </div>
+                {settings.focusDuration === opt.value && <FiCheck />}
+              </div>
+            ))}
+
+            <div className="setting-item">
+              <span className="setting-title">Short Break Duration</span>
+            </div>
+            {[
+              { label: '5 Minutes', value: 300 },
+              { label: '10 Minutes', value: 600 },
+              { label: '15 Minutes', value: 900 }
+            ].map(opt => (
+              <div key={opt.label} className="setting-item" onClick={() => updateSetting('shortBreakDuration', opt.value)}>
+                <div className="setting-info">
+                  <span className="setting-title">{opt.label}</span>
+                </div>
+                {settings.shortBreakDuration === opt.value && <FiCheck />}
+              </div>
+            ))}
+
+            <div className="setting-item">
+              <span className="setting-title">Long Break Duration</span>
+            </div>
+            {[
+              { label: '15 Minutes', value: 900 },
+              { label: '30 Minutes', value: 1800 },
+              { label: '45 Minutes', value: 2700 }
+            ].map(opt => (
+              <div key={opt.label} className="setting-item" onClick={() => updateSetting('longBreakDuration', opt.value)}>
+                <div className="setting-info">
+                  <span className="setting-title">{opt.label}</span>
+                </div>
+                {settings.longBreakDuration === opt.value && <FiCheck />}
+              </div>
+            ))}
           </div>
         );
 
@@ -708,7 +771,43 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
             </div>
           </div>
 
-          {/* SECTION 8: ABOUT */}
+          {/* SECTION 8: FOCUS MODE */}
+          <div className="settings-section">
+            <h3>FOCUS MODE</h3>
+            <div className="setting-item" onClick={() => setActiveSection('focus-mode')}>
+              <div className="setting-info">
+                <div className="setting-icon">⏱️</div>
+                <div>
+                  <span className="setting-title">Durations</span>
+                  <span className="setting-value">
+                    Focus: {settings.focusDuration ? `${settings.focusDuration / 60}m` : '∞'},
+                    Short: {settings.shortBreakDuration / 60}m,
+                    Long: {settings.longBreakDuration / 60}m
+                  </span>
+                </div>
+              </div>
+              <FiChevronRight />
+            </div>
+            <div className="setting-item">
+              <div className="setting-info">
+                <div className="setting-icon">🚀</div>
+                <div>
+                  <span className="setting-title">Auto-start Breaks</span>
+                  <span className="setting-description">Automatically start timer when selecting a break mode</span>
+                </div>
+              </div>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={settings.autoStartBreaks}
+                  onChange={() => toggleSetting('autoStartBreaks')}
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          {/* SECTION 9: ABOUT */}
           <div className="settings-section">
             <h3>ABOUT</h3>
             <div className="setting-item">
@@ -765,7 +864,7 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
             </div>
           </div>
 
-          {/* SECTION 9: ACCOUNT */}
+          {/* SECTION 10: ACCOUNT */}
           <div className="settings-section">
             <h3>ACCOUNT</h3>
 

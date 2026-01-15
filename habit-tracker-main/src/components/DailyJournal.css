@@ -1,0 +1,124 @@
+.daily-journal-preview-container {
+    width: 100%;
+    padding: 0 16px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    animation: fadeIn 0.4s ease;
+}
+
+.journal-preview-card {
+    background: rgba(30, 30, 30, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journal-preview-card:hover {
+    background: rgba(40, 40, 40, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.journal-preview-card:active {
+    transform: scale(0.98);
+}
+
+.journal-preview-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.journal-preview-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(168, 85, 247, 0.1);
+    /* purple accent from mockup */
+    color: #a855f7;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.journal-preview-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.journal-preview-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.journal-preview-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.journal-preview-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.journal-empty-prompt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+    padding: 8px 0;
+}
+
+.plus-icon {
+    font-size: 1.2rem;
+}
+
+.journal-preview-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.view-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #a855f7;
+}
+
+.arrow-icon {
+    font-size: 0.9rem;
+    color: #a855f7;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

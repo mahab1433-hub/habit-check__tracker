@@ -1,12 +1,11 @@
-
-import { FiMenu, FiSettings, FiMessageSquare, FiCalendar } from 'react-icons/fi';
+import { FiMenu, FiSettings, FiEdit, FiCalendar } from 'react-icons/fi';
 import './TopNavigation.css';
 
 interface TopNavigationProps {
   onMenuClick: () => void;
   onTodayClick: () => void;
   onSettingsClick: () => void;
-  onFeedbackClick: () => void;
+  onJournalClick: () => void;
   onCalendarClick: () => void;
 }
 
@@ -14,7 +13,7 @@ function TopNavigation({
   onMenuClick,
   onTodayClick,
   onSettingsClick,
-  onFeedbackClick,
+  onJournalClick,
   onCalendarClick
 }: TopNavigationProps) {
   return (
@@ -30,8 +29,8 @@ function TopNavigation({
 
       {/* Right side */}
       <div className="nav-right">
-        <button className="nav-button" onClick={onFeedbackClick} aria-label="Give Feedback">
-          <FiMessageSquare />
+        <button className="nav-button" onClick={onJournalClick} aria-label="Daily Journal">
+          <FiEdit />
         </button>
         <button className="nav-button" onClick={onCalendarClick}>
           <FiCalendar />

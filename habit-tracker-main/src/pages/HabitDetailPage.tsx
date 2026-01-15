@@ -2,10 +2,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FiChevronLeft, FiEdit2, FiTrash2, FiShare2, FiChevronRight } from 'react-icons/fi';
 import { Habit } from '../types/habit';
-// import { loadHabits, saveHabits } from '../utils/storage'; // Removed
 import { api } from '../services/api';
 import { jsPDF } from "jspdf";
 import './HabitDetailPage.css';
+import { getDateKey } from '../utils/storage';
 
 function HabitDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -78,7 +78,7 @@ function HabitDetailPage() {
 
     const isCompleted = (date: Date) => {
         if (!date) return false;
-        const key = date.toISOString().split('T')[0];
+        const key = getDateKey(date);
         return habit.completedDates.has(key);
     };
 

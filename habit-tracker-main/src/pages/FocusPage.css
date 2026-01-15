@@ -1,0 +1,705 @@
+.focus-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    z-index: 2000;
+    font-family: 'Outfit', sans-serif;
+}
+
+.focus-page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 20px 0 10px 0;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.focus-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 100;
+}
+
+/* Header */
+.focus-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+}
+
+.focus-nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.focus-header-pill {
+    background: #007bff;
+    color: #ffffff;
+    padding: 8px 32px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Date Selector Override */
+.focus-page .date-selector {
+    padding: 0 16px;
+    margin-top: 10px;
+}
+
+/* Main Content Area */
+.focus-content-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.focus-empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.focus-timer-circle {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.focus-timer-inner {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.focus-large-icon {
+    font-size: 2.5rem;
+    opacity: 0.6;
+}
+
+.focus-status-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Session List & History Cards */
+.focus-session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 40px;
+}
+
+.active-session-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.pulse-circle {
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+
+.session-history-card {
+    background: #1c1c1e;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.session-card-icon {
+    width: 60px;
+    height: 60px;
+    background: #4a4a4d;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+.session-card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.session-time-range {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.session-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-focus {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.badge-duration {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.badge-completed {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.session-more-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.session-more-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.session-context-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #2c2c2e;
+    border-radius: 12px;
+    padding: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    min-width: 120px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-delete-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    color: #ff453a;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.menu-delete-btn:hover {
+    background: rgba(255, 69, 58, 0.1);
+}
+
+/* Floating Side Actions */
+.focus-side-actions {
+    position: absolute;
+    right: 20px;
+    bottom: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(24, 24, 24, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 10px;
+    z-index: 10;
+}
+
+.side-action-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.4rem;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.side-action-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Mini Player */
+.focus-mini-player-container {
+    padding: 0 20px 20px 20px;
+}
+
+.focus-mini-player {
+    background: #1c1c1e;
+    border-radius: 40px;
+    height: 64px;
+    padding: 0 8px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.player-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.player-time-badge {
+    background: #007bff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.player-task-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-task-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.player-task-status {
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+.player-play-btn {
+    width: 48px;
+    height: 48px;
+    background: #007bff;
+    border: none;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Bottom Nav Mockup */
+.focus-bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 20px 0;
+    background: #1c1c1e;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.focus-bottom-nav .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    gap: 4px;
+    cursor: pointer;
+}
+
+.focus-bottom-nav .bottom-nav-item.active {
+    color: #007bff;
+}
+
+.focus-bottom-nav .nav-icon {
+    font-size: 1.4rem;
+}
+
+.focus-bottom-nav .nav-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+    .session-time-range {
+        font-size: 1rem;
+    }
+
+    .session-card-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .badge {
+        padding: 3px 8px;
+        font-size: 0.65rem;
+    }
+
+    .focus-mini-player {
+        height: 56px;
+    }
+
+    .player-time-badge {
+        padding: 6px 12px;
+        font-size: 1rem;
+    }
+}
+
+/* Mode Selection Menu */
+.mode-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2000;
+    background: transparent;
+}
+
+.mode-menu {
+    position: absolute;
+    bottom: 80px;
+    /* Above the side actions */
+    right: 20px;
+    background: #1c1c1e;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 160px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 2001;
+    animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mode-menu-item {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    padding: 12px 16px;
+    text-align: left;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.mode-menu-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.mode-menu-item.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mode-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* Mode Colors */
+.mode-focus {
+    background-color: #007bff;
+    color: #007bff;
+}
+
+.mode-short {
+    background-color: #28a745;
+    color: #28a745;
+}
+
+.mode-long {
+    background-color: #8b5cf6;
+    color: #8b5cf6;
+}
+
+/* Status Text Colors based on Mode */
+.text-focus {
+    color: #007bff;
+}
+
+.text-short {
+    color: #28a745;
+}
+
+.text-long {
+    color: #8b5cf6;
+}
+
+/* Pulse Circle Colors */
+.pulse-focus {
+    background-color: rgba(0, 123, 255, 0.2);
+}
+
+.pulse-focus::after {
+    background-color: rgba(0, 123, 255, 0.4);
+}
+
+.pulse-short {
+    background-color: rgba(40, 167, 69, 0.2);
+}
+
+.pulse-short::after {
+    background-color: rgba(40, 167, 69, 0.4);
+}
+
+.pulse-long {
+    background-color: rgba(139, 92, 246, 0.2);
+}
+
+.pulse-long::after {
+    background-color: rgba(139, 92, 246, 0.4);
+}
+
+/* Badge Colors */
+.badge-type-focus {
+    background: rgba(0, 123, 255, 0.15);
+    color: #007bff;
+}
+
+.badge-type-short {
+    background: rgba(40, 167, 69, 0.15);
+    color: #28a745;
+}
+
+.badge-type-long {
+    background: rgba(139, 92, 246, 0.15);
+    color: #8b5cf6;
+}
+
+/* Background Utility Classes for Player */
+.mode-bg-focus {
+    background-color: #007bff !important;
+}
+
+.mode-bg-short {
+    background-color: #28a745 !important;
+}
+
+.mode-bg-long {
+    background-color: #8b5cf6 !important;
+}
+
+/* Focus Settings Overlay Styles */
+.focus-settings-menu {
+    min-width: 280px;
+    padding: 16px;
+    background: #1c1c1e;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-header span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.close-menu {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.setting-opts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.opt-btn {
+    padding: 8px 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.opt-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.opt-btn.active {
+    background: #007bff;
+    border-color: #007bff;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.opt-btn .check-icon {
+    font-size: 0.85rem;
+}
+
+.setting-item-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-info span {
+    display: block;
+    font-size: 0.95rem;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.toggle-info p {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.focus-side-actions .side-action-btn.active {
+    background-color: var(--primary-color, #8b5cf6);
+    color: white;
+}
