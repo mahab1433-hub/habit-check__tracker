@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 interface LoginPageProps {
   onLogin: () => void;
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState(''); // New state for Name
+  const { login: authLogin } = useAuth();
+  const [username, setUsername] = useState(''); // This is email in our backend
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
 
     // Basic validation
     if (!username.trim() || !password.trim()) {
@@ -27,17 +32,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       return;
     }
 
-    // "Login" successful (Mock)
-    localStorage.setItem('auth_user', 'true');
-    localStorage.setItem('auth_user_email', username); // Save email/username
-    // Save name if signing up, otherwise default to "User" if not set previously
-    if (isSignUp) {
-      localStorage.setItem('auth_user_name', name);
-    } else if (!localStorage.getItem('auth_user_name')) {
-      localStorage.setItem('auth_user_name', 'User');
-    }
+    setLoading(true);
+    try {
+      let userData;
+      if (isSignUp) {
+        userData = await api.register(name, username, password);
+      } else {
+        userData = await api.login(username, password);
+      }
 
-    onLogin();
+      authLogin(userData);
+      onLogin();
+    } catch (err: any) {
+      setError(err.message || 'Authentication failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const togglePassword = () => {
@@ -61,7 +71,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         </div>
 
         <form className="login-form" onSubmit={handleLogin}>
-          {/* Name Field - Only for Sign Up */}
           {isSignUp && (
             <div className="form-group">
               <label className="form-label" htmlFor="name">Full Name</label>
@@ -71,6 +80,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   type="text"
                   className="login-input"
                   value={name}
+                  disabled={loading}
                   onChange={(e) => {
                     setName(e.target.value);
                     setError('');
@@ -82,13 +92,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           )}
 
           <div className="form-group">
-            <label className="form-label" htmlFor="username">Email or Username</label>
+            <label className="form-label" htmlFor="username">Email</label>
             <div className="input-wrapper">
               <input
                 id="username"
-                type="text"
+                type="email"
                 className="login-input"
                 value={username}
+                disabled={loading}
                 onChange={(e) => {
                   setUsername(e.target.value);
                   setError('');
@@ -106,6 +117,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 type={showPassword ? 'text' : 'password'}
                 className="login-input"
                 value={password}
+                disabled={loading}
                 onChange={(e) => {
                   setPassword(e.target.value);
                   setError('');
@@ -123,19 +135,21 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             </div>
           </div>
 
-          <div className="error-message">
-            {error}
-          </div>
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
 
-          <button type="submit" className="login-button">
-            {isSignUp ? 'Sign Up' : 'Sign In'}
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Sign In')}
           </button>
 
           <div className="auth-toggle-container">
             <span className="auth-toggle-text">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}
             </span>
-            <button type="button" className="auth-toggle-link" onClick={toggleMode}>
+            <button type="button" className="auth-toggle-link" onClick={toggleMode} disabled={loading}>
               {isSignUp ? "Sign In" : "Sign Up"}
             </button>
           </div>

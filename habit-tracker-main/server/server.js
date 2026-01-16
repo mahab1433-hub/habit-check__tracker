@@ -10,16 +10,28 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors()); // Allow frontend to call backend
-app.use(express.json()); // Parse JSON bodies
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production'
+        ? [process.env.FRONTEND_URL]
+        : true, // Allow all in dev
+    credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// Basic Security
+app.disable('x-powered-by');
 
 // Debug logging
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.originalUrl}`, req.body);
+    if (process.env.NODE_ENV !== 'production') {
+        console.log(`${req.method} ${req.originalUrl}`, req.body);
+    }
     next();
 });
 
 // Routes
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/habits', require('./routes/habits'));
 app.use('/api/tasks', require('./routes/tasks'));
 

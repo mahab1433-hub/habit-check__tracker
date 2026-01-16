@@ -13,6 +13,7 @@ import OnboardingScreen from './components/OnboardingScreen';
 import SplashScreen from './components/SplashScreen';
 import QuestionnaireScreen from './components/QuestionnaireScreen';
 import AllSetScreen from './components/AllSetScreen';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 import TaskView from './components/TaskView';
 import StatsView from './components/StatsView';
@@ -27,6 +28,7 @@ import HelpSupportPage from './pages/HelpSupportPage';
 import JournalPage from './pages/JournalPage';
 import FocusPage from './pages/FocusPage';
 import FocusStatsPage from './pages/FocusStatsPage';
+import StepCalculatorPage from './pages/StepCalculatorPage';
 
 import NotificationCenter from './components/NotificationCenter';
 import DateSelector from './components/DateSelector';
@@ -39,9 +41,9 @@ import LoginPage from './components/LoginPage';
 import DailyJournal from './components/DailyJournal';
 
 function AppContent() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('auth_user') === 'true';
-  });
+  const { user, loading: authLoading } = useAuth();
+  const isAuthenticated = !!user;
+
   const [showSplash, setShowSplash] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showQuestions, setShowQuestions] = useState(false);
@@ -170,6 +172,10 @@ function AppContent() {
     navigate('/help');
   };
 
+  const handleStepClick = () => {
+    navigate('/step-counter');
+  };
+
   const handleMenuClick = () => {
     setIsSidebarOpen(true);
   };
@@ -192,7 +198,7 @@ function AppContent() {
 
 
 
-  if (showSplash) {
+  if (authLoading || showSplash) {
     return (
       <div className="app">
         <SplashScreen onEnter={handleSplashFinish} />
@@ -210,7 +216,7 @@ function AppContent() {
 
   if (!isAuthenticated) {
     return (
-      <LoginPage onLogin={() => setIsAuthenticated(true)} />
+      <LoginPage onLogin={() => { }} />
     );
   }
 
@@ -223,6 +229,7 @@ function AppContent() {
           onSettingsClick={handleSettingsClick}
           onJournalClick={handleJournalClick}
           onCalendarClick={handleCalendarClick}
+          onStepClick={handleStepClick}
         />
         <QuestionnaireScreen onComplete={handleQuestionsComplete} />
       </div>
@@ -272,6 +279,9 @@ function AppContent() {
         <Route path="/focus-stats" element={
           <FocusStatsPage />
         } />
+        <Route path="/step-counter" element={
+          <StepCalculatorPage />
+        } />
 
         <Route path="/" element={
           <>
@@ -281,6 +291,7 @@ function AppContent() {
               onSettingsClick={handleSettingsClick}
               onJournalClick={handleJournalClick}
               onCalendarClick={handleCalendarClick}
+              onStepClick={handleStepClick}
             />
             <DateSelector
               selectedDate={selectedDate}
@@ -336,6 +347,7 @@ function AppContent() {
           </>
         } />
       </Routes>
+
     </div>
   );
 }
@@ -343,7 +355,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </Router>
   );
 }

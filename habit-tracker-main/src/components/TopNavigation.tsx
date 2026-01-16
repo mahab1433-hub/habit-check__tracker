@@ -1,4 +1,4 @@
-import { FiMenu, FiSettings, FiEdit, FiCalendar } from 'react-icons/fi';
+import { FiMenu, FiSettings, FiEdit, FiCalendar, FiActivity } from 'react-icons/fi';
 import './TopNavigation.css';
 
 interface TopNavigationProps {
@@ -7,6 +7,7 @@ interface TopNavigationProps {
   onSettingsClick: () => void;
   onJournalClick: () => void;
   onCalendarClick: () => void;
+  onStepClick: () => void;
 }
 
 function TopNavigation({
@@ -14,7 +15,8 @@ function TopNavigation({
   onTodayClick,
   onSettingsClick,
   onJournalClick,
-  onCalendarClick
+  onCalendarClick,
+  onStepClick
 }: TopNavigationProps) {
   return (
     <div className="top-navigation">
@@ -29,6 +31,9 @@ function TopNavigation({
 
       {/* Right side */}
       <div className="nav-right">
+        <button className="nav-button pulse-hover" onClick={onStepClick} title="Step Calculator">
+          <FiActivity />
+        </button>
         <button className="nav-button" onClick={onJournalClick} aria-label="Daily Journal">
           <FiEdit />
         </button>

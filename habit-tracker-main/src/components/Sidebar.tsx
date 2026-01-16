@@ -1,6 +1,7 @@
 
-import { FiX, FiHome, FiCalendar, FiCheckSquare, FiBarChart2, FiSettings, FiUser, FiBell, FiHelpCircle } from 'react-icons/fi';
+import { FiX, FiHome, FiCalendar, FiCheckSquare, FiBarChart2, FiSettings, FiUser, FiBell, FiHelpCircle, FiLogOut } from 'react-icons/fi';
 import './Sidebar.css';
+import { useAuth } from '../context/AuthContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ interface SidebarProps {
 }
 
 function Sidebar({ isOpen, onClose, onNavigate, onSettingsClick, onHelpClick }: SidebarProps) {
+  const { user, logout } = useAuth();
+
   return (
     <>
       {/* Overlay */}
@@ -32,8 +35,8 @@ function Sidebar({ isOpen, onClose, onNavigate, onSettingsClick, onHelpClick }: 
             <FiUser />
           </div>
           <div className="profile-info">
-            <div className="profile-name">{localStorage.getItem('auth_user_name') || 'User'}</div>
-            <div className="profile-email">{localStorage.getItem('auth_user_email') || 'No Email'}</div>
+            <div className="profile-name">{user?.name || 'User'}</div>
+            <div className="profile-email">{user?.email || 'No Email'}</div>
           </div>
         </div>
 
@@ -78,6 +81,13 @@ function Sidebar({ isOpen, onClose, onNavigate, onSettingsClick, onHelpClick }: 
           <button className="sidebar-item" onClick={() => { onHelpClick(); onClose(); }}>
             <FiHelpCircle />
             <span>Help & Support</span>
+          </button>
+
+          <button className="sidebar-item logout-item" onClick={() => {
+            if (confirm('Log out panna poringala?')) logout();
+          }}>
+            <FiLogOut />
+            <span>Log Out</span>
           </button>
         </nav>
 

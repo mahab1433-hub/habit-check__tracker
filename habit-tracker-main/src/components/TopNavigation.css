@@ -97,6 +97,11 @@
   transform: scale(0.95);
 }
 
+.pulse-hover:hover {
+  color: #6366f1 !important;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .top-navigation {

@@ -75,6 +75,28 @@
   background-color: #7c3aed;
 }
 
+/* Step track button in header */
+.step-track-button {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.step-track-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #6366f1;
+  color: #6366f1;
+  transform: translateY(-2px);
+}
+
 /* Category filter */
 .category-filter {
   display: flex;

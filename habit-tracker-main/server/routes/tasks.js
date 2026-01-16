@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
+const { protect } = require('../middleware/authMiddleware');
 
 // @desc    Get all tasks
 // @route   GET /api/tasks
-// @access  Public
-router.get('/', async (req, res) => {
+// @access  Private
+router.get('/', protect, async (req, res) => {
     try {
-        const tasks = await Task.find().sort({ createdAt: -1 });
+        const tasks = await Task.find({ user: req.user.id }).sort({ createdAt: -1 });
         res.status(200).json(tasks);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -16,10 +17,13 @@ router.get('/', async (req, res) => {
 
 // @desc    Create a task
 // @route   POST /api/tasks
-// @access  Public
-router.post('/', async (req, res) => {
+// @access  Private
+router.post('/', protect, async (req, res) => {
     try {
-        const task = await Task.create(req.body);
+        const task = await Task.create({
+            ...req.body,
+            user: req.user.id
+        });
         res.status(200).json(task);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -28,19 +32,26 @@ router.post('/', async (req, res) => {
 
 // @desc    Update a task
 // @route   PUT /api/tasks/:id
-// @access  Public
-router.put('/:id', async (req, res) => {
+// @access  Private
+router.put('/:id', protect, async (req, res) => {
     try {
-        const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true,
-        });
+        const task = await Task.findById(req.params.id);
 
         if (!task) {
             return res.status(404).json({ message: 'Task not found' });
         }
 
-        res.status(200).json(task);
+        // Check for user
+        if (task.user.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+
+        res.status(200).json(updatedTask);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -48,13 +59,18 @@ router.put('/:id', async (req, res) => {
 
 // @desc    Delete a task
 // @route   DELETE /api/tasks/:id
-// @access  Public
-router.delete('/:id', async (req, res) => {
+// @access  Private
+router.delete('/:id', protect, async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
 
         if (!task) {
             return res.status(404).json({ message: 'Task not found' });
+        }
+
+        // Check for user
+        if (task.user.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'User not authorized' });
         }
 
         await task.deleteOne();

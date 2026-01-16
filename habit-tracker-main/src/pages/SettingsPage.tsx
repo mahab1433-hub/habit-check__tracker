@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../components/SettingsModal.css';
 import '../components/LoginPage.css'; // Reuse profile card styles defined here
 import { addNotification } from '../utils/notifications';
+import { useAuth } from '../context/AuthContext';
 
 type ThemeColor = '#3b82f6' | '#10b981' | '#f59e0b' | '#ef4444' | '#8b5cf6' | '#ec4899' | '#06b6d4' | '#84cc16';
 type DefaultScreen = 'today' | 'overview' | 'habits' | 'tasks' | 'statistics';
@@ -40,6 +41,7 @@ interface Settings {
 
 export default function SettingsPage({ onBack }: SettingsPageProps) {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [settings, setSettings] = useState<Settings>(() => {
     const saved = localStorage.getItem('appSettings');
@@ -391,8 +393,7 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
 
   const handleLogout = () => {
     if (confirm('Are you sure you want to log out?')) {
-      localStorage.removeItem('auth_user');
-      window.location.reload();
+      logout();
     }
   };
 
@@ -874,8 +875,8 @@ export default function SettingsPage({ onBack }: SettingsPageProps) {
                 <FiUser />
               </div>
               <div className="profile-info">
-                <span className="profile-name">{localStorage.getItem('auth_user_name') || 'User'}</span>
-                <span className="profile-email">{localStorage.getItem('auth_user_email') || 'No Email'}</span>
+                <span className="profile-name">{user?.name || 'User'}</span>
+                <span className="profile-email">{user?.email || 'No email'}</span>
               </div>
             </div>
 
